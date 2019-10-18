@@ -54,7 +54,7 @@ export default function (editor, opt = {}) {
   const step = 0.2;
   const minDim = 1;
   const currentUnit = 1;
-  const resizerBtm = { tl: 0, tc: 0, tr: 0, cl: 0, cr:0, bl:0, br: 0, minDim };
+  const resizerBtm = { tl: 0, tc: 0, tr: 0, cl: 0, cr: 0, bl: 0, br: 0, minDim };
   const resizerRight = { ...resizerBtm, cr: 1, bc: 0, currentUnit, minDim, step };
 
   // Flex elements do not react on width style change therefore I use
@@ -62,6 +62,8 @@ export default function (editor, opt = {}) {
   if (flexGrid) {
     resizerRight.keyWidth = 'flex-basis';
   }
+
+  console.log(clsRow + '-' + clsCell);
 
   const rowAttr = {
     class: clsRow,
@@ -107,7 +109,7 @@ export default function (editor, opt = {}) {
   toAdd('column1') && bm.add('column1', {
     label: c.labelColumn1,
     category: c.category,
-    attributes: {class:'gjs-fonts gjs-f-b1'},
+    attributes: { class: 'gjs-fonts gjs-f-b1' },
     content: `<div ${attrsRow}>
         <div ${attrsCell}></div>
       </div>
@@ -121,7 +123,7 @@ export default function (editor, opt = {}) {
 
   toAdd('column2') && bm.add('column2', {
     label: c.labelColumn2,
-    attributes: {class:'gjs-fonts gjs-f-b2'},
+    attributes: { class: 'gjs-fonts gjs-f-b2' },
     category: c.category,
     content: `<div ${attrsRow}>
         <div ${attrsCell}></div>
@@ -138,7 +140,7 @@ export default function (editor, opt = {}) {
   toAdd('column3') && bm.add('column3', {
     label: c.labelColumn3,
     category: c.category,
-    attributes: {class:'gjs-fonts gjs-f-b3'},
+    attributes: { class: 'gjs-fonts gjs-f-b3' },
     content: `<div ${attrsRow}>
         <div ${attrsCell}></div>
         <div ${attrsCell}></div>
@@ -155,7 +157,7 @@ export default function (editor, opt = {}) {
   toAdd('column3-7') && bm.add('column3-7', {
     label: c.labelColumn37,
     category: c.category,
-    attributes: {class:'gjs-fonts gjs-f-b37'},
+    attributes: { class: 'gjs-fonts gjs-f-b37' },
     content: `<div ${attrsRow}>
         <div ${attrsCell} style="${flexGrid ? 'flex-basis' : 'width'}: 30%;"></div>
         <div ${attrsCell} style="${flexGrid ? 'flex-basis' : 'width'}: 70%;"></div>
@@ -173,11 +175,11 @@ export default function (editor, opt = {}) {
   toAdd('text') && bm.add('text', {
     label: c.labelText,
     category: c.category,
-    attributes: {class:'gjs-fonts gjs-f-text'},
+    attributes: { class: 'gjs-fonts gjs-f-text' },
     content: {
-      type:'text',
-      content:'Insert your text here',
-      style: {padding: '10px' },
+      type: 'text',
+      content: 'Insert your text here',
+      style: { padding: '10px' },
       activeOnRender: 1
     },
   });
@@ -185,21 +187,21 @@ export default function (editor, opt = {}) {
   toAdd('link') && bm.add('link', {
     label: c.labelLink,
     category: c.category,
-    attributes: {class:'fa fa-link'},
+    attributes: { class: 'fa fa-link' },
     content: {
-      type:'link',
-      content:'Link',
-      style: {color: '#d983a6'}
+      type: 'link',
+      content: 'Link',
+      style: { color: '#d983a6' }
     },
   });
 
   toAdd('image') && bm.add('image', {
     label: c.labelImage,
     category: c.category,
-    attributes: {class:'gjs-fonts gjs-f-image'},
+    attributes: { class: 'gjs-fonts gjs-f-image' },
     content: {
-      style: {color: 'black'},
-      type:'image',
+      style: { color: 'black' },
+      type: 'image',
       activeOnRender: 1
     },
   });
@@ -207,7 +209,7 @@ export default function (editor, opt = {}) {
   toAdd('video') && bm.add('video', {
     label: c.labelVideo,
     category: c.category,
-    attributes: {class:'fa fa-youtube-play'},
+    attributes: { class: 'fa fa-youtube-play' },
     content: {
       type: 'video',
       src: 'img/video2.webm',
@@ -221,10 +223,10 @@ export default function (editor, opt = {}) {
   toAdd('map') && bm.add('map', {
     label: c.labelMap,
     category: c.category,
-    attributes: {class:'fa fa-map-o'},
+    attributes: { class: 'fa fa-map-o' },
     content: {
       type: 'map',
-      style: {height: '350px'}
+      style: { height: '350px' }
     },
   });
 }

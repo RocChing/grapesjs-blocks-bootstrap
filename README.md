@@ -1,20 +1,12 @@
-# GrapesJS Basic Blocks
+# GrapesJS Bootstrap Blocks
 
-This plugin contains some basic blocks for the GrapesJS editor
-
-[Demo](http://grapesjs.com/demo.html)
-<br/>
-
-
-
+This plugin contains some bootstrap blocks for the GrapesJS editor
 
 
 ## Summary
 
-* Plugin name: `gjs-blocks-basic`
+* Plugin name: `gjs-blocks-bootstrap`
 * Blocks: `column1`, `column2`, `column3`, `column3-7`, `text`, `link`, `image`, `video`, `map`
-
-
 
 
 

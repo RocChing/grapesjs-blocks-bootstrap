@@ -2,8 +2,8 @@ import grapesjs from 'grapesjs';
 
 export default grapesjs.plugins.add('gjs-blocks-bootstrap', (editor, opts = {}) => {
   const config = {
-    //blocks: ['column1', 'column2', 'column3', 'column3-7', 'text', 'link', 'image', 'video', 'map'],
-    blocks: ['container'],
+    blocks: ['column1', 'column2', 'column3', 'column3-7', 'text', 'link', 'image', 'video', 'map'],
+    //blocks: ['container'],
     flexGrid: 0,
     stylePrefix: 'gjs-',
     addBasicStyle: true,
@@ -23,4 +23,7 @@ export default grapesjs.plugins.add('gjs-blocks-bootstrap', (editor, opts = {}) 
   // Add blocks
   const loadBlocks = require('./bootstrapBlocks');
   loadBlocks.default(editor, config);
+
+  const loadBlocks2 = require('./blocks');
+  loadBlocks2.default(editor,config);
 });

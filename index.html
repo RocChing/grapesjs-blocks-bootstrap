@@ -1,44 +1,267 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>GrapesJS Plugin</title>
-    <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/grapesjs"></script>
-    <script src="dist/grapesjs-blocks-bootstrap.min.js"></script>
-    <style>
-      body, html{ height: 100%; margin: 0;}
 
-      .gjs-block-svg {
-          width: 61%;
-      }
+<head>
+  <meta charset="utf-8">
+  <title>GrapesJS Plugin</title>
+  <!-- <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet"> -->
+  <link href="dist/grapesjs/css/grapes.min.css" rel="stylesheet">
+  <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="dist/grapesjs/grapes.min.js"></script>
+  <script src="dist/grapesjs/plugins/grapes-export/grapesjs-plugin-export.min.js"></script>
+  <!-- <script src="dist/bootstrap/js/bootstrap.min.js"></script> -->
+  <script src="/dist/grapesjs-blocks-bootstrap.min.js"></script>
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+    }
 
-      .gjs-block-svg-path {
-        fill: white;
-      }
-    </style>
-  </head>
-  <body>
+    .gjs-block-svg {
+      width: 61%;
+    }
 
-    <div id="gjs" style="height:0px; overflow:hidden">
-    </div>
+    .gjs-block-svg-path {
+      fill: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="gjs" style="height:0px; overflow:hidden">
+  </div>
 
 
-    <script type="text/javascript">
-      var editor = grapesjs.init({
-        height: '100%',
-        noticeOnUnload: 0,
-        storageManager:{autoload: 0},
-        container : '#gjs',
-        fromElement: true,
-
-        plugins: ['gjs-blocks-bootstrap'],
-        pluginsOpts: {
-          'gjs-blocks-bootstrap': {}
+  <script type="text/javascript">
+    var swv = 'sw-visibility';
+    var expt = 'export-template';
+    var osm = 'open-sm';
+    var otm = 'open-tm';
+    var ola = 'open-layers';
+    var obl = 'open-blocks';
+    var ful = 'fullscreen';
+    var prv = 'preview';
+    var cmdClear = 'canvas-clear';
+    var cmdImport = 'open-import';
+    var panels = {
+      defaults: [
+        {
+          id: 'commands',
+          buttons: [{}]
+        },
+        {
+          id: 'options',
+          buttons: [
+            {
+              active: true,
+              id: swv,
+              className: 'fa fa-square-o',
+              command: swv,
+              context: swv,
+              attributes: { title: '显示边框' }
+            },
+            {
+              id: prv,
+              className: 'fa fa-eye',
+              command: prv,
+              context: prv,
+              attributes: { title: '预览' }
+            },
+            {
+              id: ful,
+              className: 'fa fa-arrows-alt',
+              command: ful,
+              context: ful,
+              attributes: { title: '全屏' }
+            },
+            {
+              id: expt,
+              className: 'fa fa-code',
+              command: expt,
+              attributes: { title: '查看代码' }
+            },
+            {
+              id: 'undo',
+              className: 'fa fa-undo',
+              command: e => e.runCommand('core:undo'),
+              attributes: { title: '撤回' }
+            },
+            {
+              id: 'redo',
+              className: 'fa fa-repeat',
+              command: e => e.runCommand('core:redo'),
+              attributes: { title: '取消撤回' }
+            },
+            {
+              id: cmdImport,
+              className: 'fa fa-upload',
+              command: cmdImport,
+              attributes: { title: '导入' }
+            },
+            {
+              id: cmdClear,
+              className: 'fa fa-trash',
+              command: cmdClear, //e => e.runCommand('core:' + cmdClear),
+              attributes: { title: '清空' }
+            }
+          ]
+        },
+        {
+          id: 'views',
+          buttons: [
+            {
+              id: osm,
+              className: 'fa fa-paint-brush',
+              command: osm,
+              active: true,
+              togglable: 0,
+              attributes: { title: '样式管理' }
+            },
+            {
+              id: otm,
+              className: 'fa fa-cog',
+              command: otm,
+              togglable: 0,
+              attributes: { title: '设置' }
+            },
+            {
+              id: ola,
+              className: 'fa fa-bars',
+              command: ola,
+              togglable: 0,
+              attributes: { title: '层级管理' }
+            },
+            {
+              id: obl,
+              className: 'fa fa-th-large',
+              command: obl,
+              togglable: 0,
+              attributes: { title: '元素管理' }
+            }
+          ]
         }
-      });
+      ]
+    };
 
-      window.editor = editor;
-    </script>
-  </body>
+    var deviceManager = {
+      deviceLabel: '设备',
+      devices: [
+        {
+          name: '桌面',
+          width: ''
+        },
+        {
+          name: '平板',
+          width: '768px',
+          widthMedia: '992px'
+        },
+        {
+          name: '手机(568px)',
+          width: '568px',
+          widthMedia: '768px'
+        },
+        {
+          name: '手机(320px)',
+          width: '320px',
+          widthMedia: '480px'
+        }
+      ]
+    };
+
+    var styleManager = {
+      textNoElement: '选择元素查看样式',
+      sectors: [{
+        formatPropertyName: true,
+        name: '基础',
+        open: true,
+        buildProps: ['float', 'display', 'position', 'top', 'bottom', 'left', 'right']
+      }, {
+        formatPropertyName: true,
+        name: '宽高和边距',
+        open: false,
+        buildProps: ['width', 'height', 'max-width', 'min-width', 'max-height', 'min-height', 'margin', 'padding'],
+      }, {
+        formatPropertyName: true,
+        name: '字体和颜色',
+        open: false,
+        buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-shadow'],
+      }, {
+        formatPropertyName: true,
+        name: '边框',
+        open: false,
+        buildProps: ['border-radius-c', 'background-color', 'border-radius', 'border', 'box-shadow', 'background'],
+      }, {
+        formatPropertyName: true,
+        name: '其他',
+        open: false,
+        buildProps: ['transition', 'perspective', 'transform'],
+      },
+      {
+        formatPropertyName: true,
+        name: 'Flex',
+        open: false,
+        buildProps: ['flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order', 'flex-basis', 'flex-grow', 'flex-shrink', 'align-self']
+      }
+      ]
+    };
+
+    var selectorManager = {
+      label: '样式',
+      statesLabel: '默认',
+      selectedLabel: '当前选中:'
+    };
+
+    var traitManager = {
+      labelContainer: '组件设置',
+      labelPlhText: '文本',
+      textNoElement: '选择元素进行设置'
+    };
+
+    var plugins = ['grapesjs-plugin-export', 'gjs-blocks-bootstrap'];//, 'gjs-blocks-bootstrap'
+    var pluginsOpts = {
+      'grapesjs-plugin-export': {
+        btnLabel: '下载',
+        filenamePfx: '',
+        filename: 'page.zip'
+      },
+      'gjs-blocks-bootstrap': {}
+    };
+
+    var commands = {
+      defaults: ['undo', 'redo']
+    };
+
+    var importOpt = {
+      modalImportTitle: '导入',
+      modalImportButton: '导入',
+      modalImportLabel: '<div style="margin-bottom:10px;font-size:13px;">将HTML/CSS粘贴到此处并单击“导入”</div>',
+      modalImportContent: function (ed) {
+        return ed.getHtml() + '<style>' + ed.getCss() + '</style>';
+      }
+    };
+
+    var editor = grapesjs.init({
+      textViewCode: '代码',
+      showOffsets: 1,
+      noticeOnUnload: 0,
+      container: '#gjs',
+      height: '100%',
+      confirmClearCanvas: '你确定要清空页面吗?',
+      fromElement: true,
+      storageManager: { autoload: 0 },
+      panels: panels,
+      deviceManager: deviceManager,
+      styleManager: styleManager,
+      selectorManager: selectorManager,
+      traitManager: traitManager,
+      openImportOpt: importOpt,
+      plugins: plugins,
+      pluginsOpts: pluginsOpts
+    });
+
+    window.editor = editor;
+  </script>
+</body>
+
 </html>
